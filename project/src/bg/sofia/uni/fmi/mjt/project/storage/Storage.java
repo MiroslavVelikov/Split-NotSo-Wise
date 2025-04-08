@@ -1,19 +1,17 @@
 package bg.sofia.uni.fmi.mjt.project.storage;
 
 public interface Storage {
-    // AuthenticateUser might be better
-    // String login(String username, String password);
+    Boolean authenticateUser(String username, String password);
 
-    // CreateUser might be better
-    String register(String username, String password, String fullName);
+    String createUser(String username, String password, String fullName);
 
     String addFriendConnection(String user, String friendUsername);
 
     String createGroup(String groupName, String[] users);
 
-    String getHistory(String username);
+    String[] getHistory(String username);
 
-    String getConnectionHistory(String username, String connectionName);
+    String[] getConnectionHistory(String username, String connectionName);
 
     String createPayment(String forUser, Double amount, String fromUser);
 
@@ -21,5 +19,7 @@ public interface Storage {
 
     String changeCurrencyForUser(String forUser, String currency);
 
-    String getStatusForUser(String username);
+    String[] getStatusForUser(String username);
+
+    void save();
 }
