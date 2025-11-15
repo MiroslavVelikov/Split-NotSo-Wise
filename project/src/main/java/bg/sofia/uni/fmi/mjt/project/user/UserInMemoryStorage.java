@@ -7,14 +7,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class UserInMemoryStorage implements Storage {
 
-    private String filePath;
+    private final String filePath;
     private Map<String, UserModel> users;
 
     public UserInMemoryStorage(String filePath) {
