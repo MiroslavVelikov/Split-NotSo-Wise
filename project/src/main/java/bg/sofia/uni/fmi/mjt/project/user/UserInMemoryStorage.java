@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class UserInMemoryStorage implements Storage {
+public class UserInMemoryStorage implements UserRepository {
 
     private final String filePath;
     private Map<String, UserModel> users;

@@ -5,7 +5,7 @@ import bg.sofia.uni.fmi.mjt.project.user.models.UserService;
 
 import java.util.UUID;
 
-public interface Storage {
+public interface UserRepository {
 
     UserService addUser(UserModel user);
     UserService getUserByID(UUID id);

@@ -5,10 +5,11 @@ import bg.sofia.uni.fmi.mjt.project.relation.models.Relation;
 import java.util.Set;
 import java.util.UUID;
 
-public interface Service {
+public interface RelationRepository {
 
-    Relation createRelation(String name, Set<String> users);
+    Relation addRelation(Relation relation);
     Relation getRelationById(UUID id);
-    Set<Relation> getRelationsByUsername(String username);
+    Set<Relation> getRelationsByMember(String username);
+    Relation getRelationByName(String name);
 
 }

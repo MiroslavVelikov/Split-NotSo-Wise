@@ -5,6 +5,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class Utils {
 
+    public static final String QUIT_COMMAND = "quit";
+
     private static final String HASHING_ALGORITHM = "SHA-256";
 
     // This method is taken from https://medium.com/@AlexanderObregon/what-is-sha-256-hashing-in-java-0d46dfb83888

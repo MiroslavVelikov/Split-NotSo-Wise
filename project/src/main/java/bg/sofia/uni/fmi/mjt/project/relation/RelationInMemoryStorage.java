@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class RelationInMemoryStorage implements Storage {
+public class RelationInMemoryStorage implements RelationRepository {
 
     private final String filePath;
     private Set<Relation> relations;
