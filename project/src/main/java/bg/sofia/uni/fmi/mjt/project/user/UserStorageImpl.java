@@ -1,7 +1,6 @@
 package bg.sofia.uni.fmi.mjt.project.user;
 
-import bg.sofia.uni.fmi.mjt.project.user.models.UserModel;
-import bg.sofia.uni.fmi.mjt.project.user.models.UserService;
+import bg.sofia.uni.fmi.mjt.project.user.models.UserEntity;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,12 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class UserInMemoryStorage implements Storage {
+public class UserStorageImpl implements UserStorage {
 
     private final String filePath;
-    private Map<String, UserModel> users;
+    private Map<String, UserEntity> users;
 
-    public UserInMemoryStorage(String filePath) {
+    public UserStorageImpl(String filePath) {
         users = new HashMap<>();
         this.filePath = filePath;
 
@@ -33,7 +32,7 @@ public class UserInMemoryStorage implements Storage {
                 String[] parts = line.split(",", -1);
                 if (parts.length < 6) continue;
 
-                UserModel user = new UserModel(
+                UserEntity user = new UserEntity(
                     UUID.fromString(parts[0].trim()),
                     parts[1].trim(),
                     parts[2].trim(),
@@ -42,7 +41,7 @@ public class UserInMemoryStorage implements Storage {
                     parts[5].trim()
                 );
 
-                users.putIfAbsent(user.username(), user);
+                users.putIfAbsent(user.getUsername(), user);
             }
 
         } catch (IOException e) {
@@ -52,41 +51,52 @@ public class UserInMemoryStorage implements Storage {
     }
 
     @Override
-    public UserService addUser(UserModel user) {
-        users.putIfAbsent(user.username(), user);
-        return Convertor.convertUserModelToService(user);
+    public UserEntity createUser(UserEntity user) {
+        users.putIfAbsent(user.getUsername(), user);
+        return user;
     }
 
     @Override
-    public UserService getUserByID(UUID id) {
-        UserModel user = users.values().stream()
-            .filter(u -> u.id().equals(id))
+    public UserEntity getUserByID(UUID id) {
+        UserEntity user = users.values().stream()
+            .filter(u -> u.getId().equals(id))
             .findFirst()
             .orElse(null);
 
-        return Convertor.convertUserModelToService(user);
+        return user;
     }
 
     @Override
-    public UserService getUserByUsername(String username) {
-        UserModel user = users.getOrDefault(username, null);
+    public UserEntity getUserByUsername(String username) {
+        UserEntity user = users.getOrDefault(username, null);
+        return user;
+    }
 
-        return Convertor.convertUserModelToService(user);
+    private UserEntity getUserModelByUsername(String username) {
+        return users.getOrDefault(username, null);
+    }
+
+    @Override
+    public UserEntity updateUser(UserEntity user) {
+        UserEntity entity = getUserModelByUsername(user.getUsername());
+        entity.setCurrencyPreference(user.getCurrencyPreference());
+
+        return entity;
     }
 
     public void save() {
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write("id,username,password,firstName,lastName,currencyPreference\n");
 
-            for (UserModel user : users.values()) {
+            for (UserEntity user : users.values()) {
                 writer.write(String.format(
                     "%s,%s,%s,%s,%s,%s\n",
-                    user.id(),
-                    user.username(),
-                    user.password(),
-                    user.firstName(),
-                    user.lastName(),
-                    user.currencyPreference()
+                    user.getId(),
+                    user.getUsername(),
+                    user.getPassword(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getCurrencyPreference()
                 ));
             }
 

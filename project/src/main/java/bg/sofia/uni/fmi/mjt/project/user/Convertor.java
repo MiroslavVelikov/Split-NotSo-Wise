@@ -1,20 +1,22 @@
 package bg.sofia.uni.fmi.mjt.project.user;
 
-import bg.sofia.uni.fmi.mjt.project.user.models.UserModel;
 import bg.sofia.uni.fmi.mjt.project.user.models.UserOutput;
-import bg.sofia.uni.fmi.mjt.project.user.models.UserService;
+import bg.sofia.uni.fmi.mjt.project.user.models.UserEntity;
 
 public final class Convertor {
 
     private Convertor() { }
 
-    public static UserService convertUserModelToService(UserModel model) {
-        return model == null ? null : new UserService(model.id(), model.username(),
-            model.firstName() + " " + model.lastName(), model.currencyPreference());
-    }
+//    public static UserEntity convertUserModelToService(UserEntity model) {
+//        return model == null ? null : new UserEntity(model.getId(), model.getUsername(),
+//            model.getFirstName() + " " + model.getLastName(), model.getCurrencyPreference());
+//    }
 
-    public static UserOutput convertUserServiceToOutput(UserService service) {
-        return service == null ? null : new UserOutput(service.id(), service.username(), service.fullName());
+    public static UserOutput convertUserServiceToOutput(UserEntity service) {
+        return service == null ? null : new UserOutput(
+            service.getId(),
+            service.getUsername(),
+            service.getFirstName() + " " + service.getLastName());
     }
 
 }
